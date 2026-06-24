@@ -77,17 +77,17 @@ const lasOper = {
     funOtras: function (laoper, ...listaNumeros) {
         if (extraVal(listaNumeros)) {
             if (laoper === "pot") {
-                return listaNumeros[0] ** listaNumeros[1];
+                return `Resultado de la potencia: ${listaNumeros[0] ** listaNumeros[1]}`;
             } else if (laoper == "raiz") {
-                return (listaNumeros[0] ** (1 / listaNumeros[1])).toFixed(2);
+                return `Resultado de la raiz: ${(listaNumeros[0] ** (1 / listaNumeros[1])).toFixed(2)}`;
             } else if (laoper == "mod") {
-                return listaNumeros[0] % listaNumeros[1];
+                return `Resultado de mod: ${listaNumeros[0] % listaNumeros[1]}`;
             } else if (laoper == "porc") {
-                return ((listaNumeros[0] * listaNumeros[1]) / 100).toFixed(2);
+                return `Resultado del porcentaje: ${((listaNumeros[0] * listaNumeros[1]) / 100).toFixed(2)}`;
             } else if (laoper == "qporc") {
-                return ((listaNumeros[0] / listaNumeros[1]) * 100).toFixed(2) + "%";
+                return `Resultado del porcentaje: ${((listaNumeros[0] / listaNumeros[1]) * 100).toFixed(2) + "%"}`;
             } else if (laoper == "porcd") {
-                return ((listaNumeros[0] / listaNumeros[1]) * 100).toFixed(2);
+                return `Resultado del porcentaje: ${((listaNumeros[0] / listaNumeros[1]) * 100).toFixed(2)}`;
             }
         } else {
             return "Operación cancelada";
@@ -401,25 +401,25 @@ async function modoPrompt() {
                 case "1":
                     const rSuma = lasOper.funBasicas("sum", ...arregloNums);
                     alert(`Resultado de la Suma: ${rSuma}`);
-                    console.log(`Suma: ${rSuma}`);
+                    console.log(rSuma);
                     divConsola(rSuma);
                     break;
                 case "2":
                     const rRes = lasOper.funBasicas("res", ...arregloNums);
                     alert(`Resultado de la Resta: ${rRes}`);
-                    console.log(`Resta: ${rRes}`);
+                    console.log(rRes);
                     divConsola(rRes);
                     break;
                 case "3":
                     const rMul = lasOper.funBasicas("mul", ...arregloNums);
                     alert(`Resultado de la Multiplicación: ${rMul}`);
-                    console.log(`Multiplicación: ${rMul}`);
+                    console.log(rMul);
                     divConsola(rMul);
                     break;
                 case "4":
                     const rDiv = lasOper.funBasicas("div", ...arregloNums);
                     alert(`Resultado de la División: ${rDiv}`);
-                    console.log(`División: ${rDiv}`);
+                    console.log(rDiv);
                     divConsola(rDiv);
                     break;
                 case "5":
