@@ -17,6 +17,8 @@ Esta aplicación permite realizar las siguientes operaciones matemáticas:
     - Números correlativos desde x número hasta x cantidad de números.
     - Fibonacci desde x número hasta x cantidad de números.
 
+Es posible realizar los cálculos por 3 vias: Interfaz web  (por formularios), prompt (específico por formulario), prompt con menú.
+
 ## Tecnologías usadas
 
 - HTML
@@ -54,3 +56,16 @@ Proyecto modulo 3/
 └── docs/
 ```
 
+## Anexos
+
+### Interfaz Web
+
+![Interfaz Web](./docs/caption-interfaz-web.png)
+
+### Consola
+
+![Consola](./docs/caption-consola.png)
+
+### Menu
+
+![Menu](./docs/caption-menu.png)

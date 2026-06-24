@@ -11,8 +11,8 @@
 // - Prompt js                   // 🟢 //
 // - Validaciones                // 🟢 //
 // - Codigo fuente en Github     // 🟢 //
-// - Archivo README.md           // 🟠 //
-// - Capturas de pantalla        // 🔴 //
+// - Archivo README.md           // 🟢 //
+// - Capturas de pantalla        // 🟢 //
 // - Documentación y análisis    // 🔴 //
 /////////////////////////////////////////
 
@@ -21,7 +21,7 @@
 document.addEventListener("submit", function (evento) {
     evento.preventDefault(); //Evita que se recargue la pagina
     const form = evento.target; // Se escucha el form
-    console.clear(); // Limpio la consola antes de ejecutar la operación
+    //console.clear(); // Limpio la consola antes de ejecutar la operación <- La mantendre comentada para dejar el registro completo
     validar(form); // Se envia el form completo a la función validar
 });
 
@@ -56,15 +56,15 @@ const lasOper = {
                 for (let i = 0; i < listaNumeros.length; i++) {
                     totalSuma += listaNumeros[i];
                 }
-                return totalSuma;
+                return `Resultado de la suma: ${totalSuma}`;
             case "res":
-                return listaNumeros.reduce((total, num) => total - num);
+                return `Resultado de la resta: ${listaNumeros.reduce((total, num) => total - num)}`;
             case "mul":
-                return listaNumeros.reduce((total, num) => total * num, 1);
+                return `Resultado de la multiplicación: ${listaNumeros.reduce((total, num) => total * num, 1)}`;
             case "div":
                 if (extraVal(listaNumeros)) {
                     let resultado = listaNumeros.reduce((total, num) => total / num);
-                    return resultado.toFixed(2);
+                    return `Resultado de la division: ${resultado.toFixed(2)}`;
                 } else {
                     return "Operación cancelada";
                 }
@@ -159,8 +159,7 @@ const lasOper = {
             // El ciclo while corre mientras no lleguemos al número máximo
             while (contador <= maximo) {
                 console.log(contador);
-                consola.innerHTML += contador + "<br>";
-                consola.scrollTop = consola.scrollHeight;
+                divConsola(contador);
                 contador++;
                 await esperar(500); // Pausa de medio segundo (500 milisegundos)
             }
@@ -185,8 +184,7 @@ const lasOper = {
             while (contador < cantidad) {
                 // Si el número es impar, agrega un espacio. Esto para que en consola aparezca el 1 dos veces al repetirse en esta secuencia
                 console.log(contador % 2 === 0 ? `${a}` : `${a} `);
-                consola.innerHTML += a + "<br>";
-                consola.scrollTop = consola.scrollHeight;
+                divConsola(a);
                 let siguiente = a + b;
                 a = b;
                 b = siguiente;
@@ -211,7 +209,7 @@ function extraVal(lista) {
     } else if (lista.slice(1).includes(0)) {
         const msjError = "No debe incluir el 0 en el segundo valor";
         mostrarMsj(msjError);
-        esCero = true;
+        esCero = true; // En las tablas del div me daba error y no se mostraba
         return false;
     } else {
         return true;
@@ -273,13 +271,12 @@ async function validar(formRecibido) {
     if (laFuncion === "funEspeciales") {
         await lasOper[laFuncion](operSeleccionada, ...arregloNums);
     } else {
-        esCero = false; 
+        esCero = false;
         const resOper = lasOper[laFuncion](operSeleccionada, ...arregloNums);
         if (laFuncion !== "funOhm") {
             // Muestra en consola la salida de la función llamada
             console.log(resOper);
-            consola.innerHTML += resOper + "<br>";
-            consola.scrollTop = consola.scrollHeight;
+            divConsola(resOper);
         } else {
             // Muestra en consola la salida de la función llamada
             console.table(resOper);
@@ -292,7 +289,7 @@ async function validar(formRecibido) {
 }
 
 async function mostrarMsj(msjError) {
-    consola.innerHTML = "";
+    //consola.innerHTML = "";
     console.error(msjError);
     consola.innerHTML += msjError + "<br>";
     consola.scrollTop = consola.scrollHeight;
@@ -332,10 +329,16 @@ function mostrarTabla(data) {
         });
 
         tabla.appendChild(tbody);
-        consola.innerHTML = "";
+        //consola.innerHTML = "";
         consola.appendChild(tabla);
         esCero = false;
     }
+}
+
+// Se ingresa resultado al div y se agrega scroll horizontal para mostrar bien el salto de linea
+function divConsola(oper) {
+    consola.innerHTML += oper + "<br>";
+    consola.scrollTop = consola.scrollHeight;
 }
 
 ////////////////////
@@ -382,6 +385,7 @@ async function modoPrompt() {
             // Validaciones adaptadas
             const arregloBase = ingreso.split(",");
             const filtroArreglo = arregloBase.filter(num => num.trim() !== "");
+
             const arregloNums = filtroArreglo.map(num => Number(num.trim()));
             if (arregloNums.length < 2 && opcion !== "5" && opcion !== "6") {
                 alert("Debe ingresar al menos 2 números.");
@@ -398,21 +402,25 @@ async function modoPrompt() {
                     const rSuma = lasOper.funBasicas("sum", ...arregloNums);
                     alert(`Resultado de la Suma: ${rSuma}`);
                     console.log(`Suma: ${rSuma}`);
+                    divConsola(rSuma);
                     break;
                 case "2":
                     const rRes = lasOper.funBasicas("res", ...arregloNums);
                     alert(`Resultado de la Resta: ${rRes}`);
                     console.log(`Resta: ${rRes}`);
+                    divConsola(rRes);
                     break;
                 case "3":
                     const rMul = lasOper.funBasicas("mul", ...arregloNums);
                     alert(`Resultado de la Multiplicación: ${rMul}`);
                     console.log(`Multiplicación: ${rMul}`);
+                    divConsola(rMul);
                     break;
                 case "4":
                     const rDiv = lasOper.funBasicas("div", ...arregloNums);
                     alert(`Resultado de la División: ${rDiv}`);
                     console.log(`División: ${rDiv}`);
+                    divConsola(rDiv);
                     break;
                 case "5":
                     const tipoEspecial = prompt("Escriba 'fibo' para Fibonacci o 'corr' para correlativos:");
@@ -423,6 +431,7 @@ async function modoPrompt() {
                     const rPorc = lasOper.funOtras(tipoPorc, ...arregloNums);
                     alert(`Resultado del porcentaje: ${rPorc}`);
                     console.log(rPorc);
+                    divConsola(rPorc);
                     break;
             }
         } else {
