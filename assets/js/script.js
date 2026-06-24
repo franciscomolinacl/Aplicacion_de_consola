@@ -267,3 +267,89 @@ async function validar(formRecibido) {
         console.log(lasOper[laFuncion](operSeleccionada, ...arregloNums));
     }
 }
+
+////////////////////
+// VERSION PROMPT //
+////////////////////
+
+// Se escucha el boton 
+document.getElementById("btnModoPrompt").addEventListener("click", async function () {
+    modoPrompt();
+});
+
+// El menu de las operaciones
+function mostrarMenu() {
+    return prompt(
+        `Por favor elija una opción:
+1. Sumar
+2. Restar
+3. Multiplicar
+4. Dividir
+5. Fibonacci / Correlativos
+6. Salir`
+    );
+}
+
+async function modoPrompt() {
+    let continuar = true;
+
+    while (continuar) {
+        const opcion = mostrarMenu();
+
+        // Si presiona cancelar o elige la opción salir
+        if (opcion === null || opcion === "6") {
+            alert("Saliendo de Modo Prompt. ¡Adiós!");
+            continuar = false;
+            break;
+        }
+
+        // Opciones del menu, se revisa si estan incluidas
+        if (["1", "2", "3", "4", "5"].includes(opcion)) {
+            const ingreso = prompt("Ingresa números separados por comas.\nPara suma, resta y multiplicación puede ser desde 2 o más\npara el resto sólo 2 números");
+            if (ingreso === null) continue; // Si cancela, vuelve al menú
+
+            // Validaciones adaptadas
+            const arregloBase = ingreso.split(",");
+            const filtroArreglo = arregloBase.filter(num => num.trim() !== "");
+            const arregloNums = filtroArreglo.map(num => Number(num.trim()));
+            if (arregloNums.length < 2 && opcion !== "5") {
+                alert("Debe ingresar al menos 2 números.");
+                continue;
+            }
+            if (arregloNums.some(isNaN)) {
+                alert("Uno o más valores no son números.");
+                continue;
+            }
+
+            // Resultados para operaciones
+            switch (opcion) {
+                case "1":
+                    const rSuma = lasOper.funBasicas("sum", ...arregloNums);
+                    alert(`Resultado de la Suma: ${rSuma}`);
+                    console.log(`Suma: ${rSuma}`);
+                    break;
+                case "2":
+                    const rRes = lasOper.funBasicas("res", ...arregloNums);
+                    alert(`Resultado de la Resta: ${rRes}`);
+                    console.log(`Resta: ${rRes}`);
+                    break;
+                case "3":
+                    const rMul = lasOper.funBasicas("mul", ...arregloNums);
+                    alert(`Resultado de la Multiplicación: ${rMul}`);
+                    console.log(`Multiplicación: ${rMul}`);
+                    break;
+                case "4":
+                    const rDiv = lasOper.funBasicas("div", ...arregloNums);
+                    alert(`Resultado de la División: ${rDiv}`);
+                    console.log(`División: ${rDiv}`);
+                    break;
+                case "5":
+                    const tipoEspecial = prompt("Escriba 'fibo' para Fibonacci o 'corr' para correlativos:");
+                    await lasOper.funEspeciales(tipoEspecial, ...arregloNums);
+                    break;
+            }
+        } else {
+            alert("Opción no válida. Intente de nuevo.");
+        }
+    }
+}
