@@ -286,7 +286,8 @@ function mostrarMenu() {
 3. Multiplicar
 4. Dividir
 5. Fibonacci / Correlativos
-6. Salir`
+6. Porcentajes
+7. Salir`
     );
 }
 
@@ -297,14 +298,14 @@ async function modoPrompt() {
         const opcion = mostrarMenu();
 
         // Si presiona cancelar o elige la opción salir
-        if (opcion === null || opcion === "6") {
+        if (opcion === null || opcion === "7") {
             alert("Saliendo de Modo Prompt. ¡Adiós!");
             continuar = false;
             break;
         }
 
         // Opciones del menu, se revisa si estan incluidas
-        if (["1", "2", "3", "4", "5"].includes(opcion)) {
+        if (["1", "2", "3", "4", "5", "6"].includes(opcion)) {
             const ingreso = prompt("Ingresa números separados por comas.\nPara suma, resta y multiplicación puede ser desde 2 o más\npara el resto sólo 2 números");
             if (ingreso === null) continue; // Si cancela, vuelve al menú
 
@@ -312,7 +313,7 @@ async function modoPrompt() {
             const arregloBase = ingreso.split(",");
             const filtroArreglo = arregloBase.filter(num => num.trim() !== "");
             const arregloNums = filtroArreglo.map(num => Number(num.trim()));
-            if (arregloNums.length < 2 && opcion !== "5") {
+            if (arregloNums.length < 2 && opcion !== "5" && opcion !== "6") {
                 alert("Debe ingresar al menos 2 números.");
                 continue;
             }
@@ -346,6 +347,10 @@ async function modoPrompt() {
                 case "5":
                     const tipoEspecial = prompt("Escriba 'fibo' para Fibonacci o 'corr' para correlativos:");
                     await lasOper.funEspeciales(tipoEspecial, ...arregloNums);
+                    break;
+                case "6":
+                    const tipoPorc = prompt("Escriba: 'porc' para obtener el porcentaje de un numero\n'qporc' para saber el % de la cantidad\n'porcd' para saber cantidad donde se obtuvo el porcentaje");
+                    console.log(lasOper.funOtras(tipoPorc, ...arregloNums));
                     break;
             }
         } else {
