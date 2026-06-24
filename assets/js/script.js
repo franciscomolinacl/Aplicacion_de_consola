@@ -51,6 +51,8 @@ document.addEventListener("click", function (evento) {
     }
 });
 
+const consola = document.getElementById("console");
+
 // Objeto con funciones de operaciones
 const lasOper = {
     // Funcion de operaciones básicas
@@ -114,7 +116,7 @@ const lasOper = {
                         "Ohms": (listaNumeros[0] / listaNumeros[1]).toFixed(2)
                     }
                 ];
-                console.table(res);
+                return res;
             } else if (laoper == "amp") {
                 let res = [
                     {
@@ -124,7 +126,7 @@ const lasOper = {
                         "Ohms": ((listaNumeros[1] ** 2) / listaNumeros[0]).toFixed(2)
                     }
                 ];
-                console.table(res);
+                return res;
             } else if (laoper == "volt") {
                 let res = [
                     {
@@ -134,7 +136,7 @@ const lasOper = {
                         "Ohms": (listaNumeros[0] / (listaNumeros[1] ** 2)).toFixed(2)
                     }
                 ];
-                console.table(res);
+                return res;
             } else if (laoper == "resi") {
                 let res = [
                     {
@@ -144,7 +146,7 @@ const lasOper = {
                         "Volts": (listaNumeros[0] / listaNumeros[1]).toFixed(2)
                     }
                 ];
-                console.table(res);
+                return res;
             }
         } else {
             return "Operación cancelada";
@@ -160,10 +162,14 @@ const lasOper = {
             let contador = listaNumeros[0];
             const maximo = listaNumeros[0] + listaNumeros[1] - 1;
             console.log(`Mostrando números del ${contador} al ${maximo}:`);
+            consola.innerHTML += `Mostrando números del ${contador} al ${maximo}:` + "<br>";
+            consola.scrollTop = consola.scrollHeight;
 
             // El ciclo while corre mientras no lleguemos al número máximo
             while (contador <= maximo) {
                 console.log(contador);
+                consola.innerHTML += contador + "<br>";
+                consola.scrollTop = consola.scrollHeight;
                 contador++;
                 await esperar(500); // Pausa de medio segundo (500 milisegundos)
             }
@@ -180,12 +186,16 @@ const lasOper = {
                 b = siguiente;
             }
             console.log(`Mostrando ${cantidad} números de Fibonacci desde el ${inicio}:`);
+            consola.innerHTML += `Mostrando ${cantidad} números de Fibonacci desde el ${inicio}:` + "<br>";
+            consola.scrollTop = consola.scrollHeight;
 
             let contador = 0;
             // El ciclo while corre hasta mostrar la cantidad de números pedidos
             while (contador < cantidad) {
                 // Si el número es impar, agrega un espacio. Esto para que en consola aparezca el 1 dos veces al repetirse en esta secuencia
                 console.log(contador % 2 === 0 ? `${a}` : `${a} `);
+                consola.innerHTML += a + "<br>";
+                consola.scrollTop = consola.scrollHeight;
                 let siguiente = a + b;
                 a = b;
                 b = siguiente;
@@ -197,16 +207,20 @@ const lasOper = {
 
 };
 
+let esCero = false;
 // Función extra de validación
 // Use return false y true para reutilizar la función en la división de las funciones básicas y en las otras funciones de operaciones
 function extraVal(lista) {
     // Si la lista tiene mas de 2 números
     if (lista.length > 2) {
-        console.warn("Ingrese sólo 2 valores");
+        const msjError = "Ingrese sólo 2 valores";
+        mostrarMsj(msjError);
         return false;
         // Si incluye un 0 como segundo número | slice(1) = segundo número - includes(0) = incluye el 0
     } else if (lista.slice(1).includes(0)) {
-        console.error("No debe incluir el 0 en el segundo valor");
+        const msjError = "No debe incluir el 0 en el segundo valor";
+        mostrarMsj(msjError);
+        esCero = true;
         return false;
     } else {
         return true;
@@ -222,7 +236,8 @@ async function validar(formRecibido) {
 
     // Se verifica que se seleccione una operación
     if (operSeleccionada === "") {
-        console.warn("Debe seleccionar una operación");
+        const msjError = "Debe seleccionar una operación";
+        mostrarMsj(msjError);
         return;
     }
 
@@ -231,7 +246,8 @@ async function validar(formRecibido) {
 
     // Se valida que el input no se envie vacio
     if (numsValores === "") {
-        console.warn("Por favor, ingresa al menos 2 números separados por coma");
+        const msjError = "Por favor, ingresa al menos 2 números separados por coma";
+        mostrarMsj(msjError);
         return;
     }
 
@@ -240,7 +256,8 @@ async function validar(formRecibido) {
     // Limpia los espacios vacíos y elimina las posiciones que quedaron sin texto
     const filtroArreglo = arregloBase.filter(num => num.trim() !== "");
     if (filtroArreglo.length === 0) {
-        console.warn("Debe ingresar números, no sólo comas.");
+        const msjError = "Debe ingresar números, no sólo comas.";
+        mostrarMsj(msjError);
         return;
     }
 
@@ -249,13 +266,15 @@ async function validar(formRecibido) {
 
     // Valida que el arreglo tenga un mínimo de 2 elementos para operar
     if (arregloNums.length < 2) {
-        console.error("Debe ingresar al menos 2 números separados por coma.");
+        const msjError = "Debe ingresar al menos 2 números separados por coma.";
+        mostrarMsj(msjError);
         return;
     }
 
     // Verifica si existe algún valor en el arreglo que no sea un número válido (NaN)
     if (arregloNums.some(isNaN)) {
-        console.error("Uno o más valores no son números.");
+        const msjError = "Uno o más valores no son números.";
+        mostrarMsj(msjError);
         return;
     }
 
@@ -263,8 +282,68 @@ async function validar(formRecibido) {
     if (laFuncion === "funEspeciales") {
         await lasOper[laFuncion](operSeleccionada, ...arregloNums);
     } else {
-        // Muestra en consola la salida de la función llamada
-        console.log(lasOper[laFuncion](operSeleccionada, ...arregloNums));
+        esCero = false; 
+        const resOper = lasOper[laFuncion](operSeleccionada, ...arregloNums);
+        if (laFuncion !== "funOhm") {
+            // Muestra en consola la salida de la función llamada
+            console.log(resOper);
+            consola.innerHTML += resOper + "<br>";
+            consola.scrollTop = consola.scrollHeight;
+        } else {
+            // Muestra en consola la salida de la función llamada
+            console.table(resOper);
+            mostrarTabla(resOper);
+            consola.scrollTop = consola.scrollHeight;
+
+        }
+
+    }
+}
+
+async function mostrarMsj(msjError) {
+    consola.innerHTML = "";
+    console.error(msjError);
+    consola.innerHTML += msjError + "<br>";
+    consola.scrollTop = consola.scrollHeight;
+}
+
+// Crea tabla para div de funcion Ley Ohm/Watt
+function mostrarTabla(data) {
+    if (!esCero) {
+        const tabla = document.createElement("table");
+        tabla.border = "1";
+        tabla.style.borderCollapse = "collapse";
+        tabla.style.marginTop = "10px";
+        const thead = document.createElement("thead");
+        const filaHead = document.createElement("tr");
+
+        Object.keys(data[0]).forEach(key => {
+            const th = document.createElement("th");
+            th.textContent = key;
+            th.style.padding = "5px";
+            filaHead.appendChild(th);
+        });
+
+        thead.appendChild(filaHead);
+        tabla.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+
+        data.forEach(obj => {
+            const fila = document.createElement("tr");
+            Object.values(obj).forEach(valor => {
+                const td = document.createElement("td");
+                td.textContent = valor;
+                td.style.padding = "5px";
+                fila.appendChild(td);
+            });
+            tbody.appendChild(fila);
+        });
+
+        tabla.appendChild(tbody);
+        consola.innerHTML = "";
+        consola.appendChild(tabla);
+        esCero = false;
     }
 }
 
@@ -350,7 +429,9 @@ async function modoPrompt() {
                     break;
                 case "6":
                     const tipoPorc = prompt("Escriba: 'porc' para obtener el porcentaje de un numero\n'qporc' para saber el % de la cantidad\n'porcd' para saber cantidad donde se obtuvo el porcentaje");
-                    console.log(lasOper.funOtras(tipoPorc, ...arregloNums));
+                    const rPorc = lasOper.funOtras(tipoPorc, ...arregloNums);
+                    alert(`Resultado del porcentaje: ${rPorc}`);
+                    console.log(rPorc);
                     break;
             }
         } else {

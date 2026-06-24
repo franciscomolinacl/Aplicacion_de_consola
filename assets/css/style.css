@@ -1,4 +1,7 @@
 #console {
+    background:#111;
+    color:#0f0;
+    font-family:monospace;
     height: 202px;
     border: 1px solid #0f0;
     padding: 10px;
