@@ -1,0 +1,7 @@
+#console {
+    height: 202px;
+    border: 1px solid #0f0;
+    padding: 10px;
+    overflow-y: auto;
+}
+
