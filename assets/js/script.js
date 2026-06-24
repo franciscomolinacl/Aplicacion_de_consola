@@ -1,30 +1,21 @@
-///////////////////////////////////////////////  🟢  🟠  🔴
-// OBJETIVOS                                 //
-//===========================================//
-// Realizar operaciones matematicas básicas  //  🟢
-// Implementar condicionales y bucles        //  🟢
-// Usar funciones para modularizar           //  🟢
-// Trabajar con arreglos y objetos           //  🟢
-///////////////////////////////////////////////  
+/////////////////////////////////////////           
+// REQUERIMIENTOS      🟢  🟠  🔴      //
+//=====================================//
+// - Operaciones matematicas     // 🟢 //
+// - Condicionales (if, switch)  // 🟢 //
+// - Bucles (for, while)         // 🟢 //
+// - Funciones                   // 🟢 //
+// - Arreglos                    // 🟢 //
+// - Objetos                     // 🟢 //
+// - Ejecutar en consola         // 🟢 //
+// - Prompt js                   // 🟢 //
+// - Validaciones                // 🟢 //
+// - Codigo fuente en Github     // 🟢 //
+// - Archivo README.md           // 🟠 //
+// - Capturas de pantalla        // 🔴 //
+// - Documentación y análisis    // 🔴 //
+/////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////
-// REQUERIMIENTOS                                               //
-//==============================================================//
-// Se debe ejecutar en consola                                  //  🟢
-// Usuario ingresa datos por prompt o variables predefinidas    //  🟠 <- Lo tengo por input de formulario por ahora
-// Al menos 3 operaciones diferentes con funciones              //  🟢
-// Utilizar condicionales y estructuras de repetición           //  🟢
-// Incluir arreglos y objetos para almacenar y manipular datos  //  🟢
-//////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////
-// REQUERIMIENTOS TECNICOS                                                   //
-//===========================================================================//
-// Funciones y modularización: separación código en funciones reutilizables  //  🟢
-// Estructuras de control: implementación de if, switch, for, while          //  🟢
-// Uso de arreglos y objetos: para manipular los datos                       //  🟢
-// Validaciones: control de entradas del usuario para evitar errores         //  🟢
-///////////////////////////////////////////////////////////////////////////////
 
 // Se escucha el evento 'submit' de operaciones básicas
 document.addEventListener("submit", function (evento) {
